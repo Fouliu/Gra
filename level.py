@@ -3,6 +3,7 @@ from tiles import Tile
 from settings import tile_size, screen_width
 from player import Player
 from particles import ParticleEffect
+from support import import_csv_layout
 
 
 class Level:
@@ -13,10 +14,21 @@ class Level:
         self.setup_level(level_data)
         self.world_shift = 0
         self.current_x = 0
+        # layout
+
+        terrain_layout = import_csv_layout(level_data['terrain'])
+        self.terrain_sprites = self.create_tile_group(terrain_layout, 'terrain')
 
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
+
+    def create_tile_group(self, layout, type):
+        sprite_group = pygame.sprite.Group()
+        for row in layout:
+            print(row)
+
+        return sprite_group
 
     def create_jump_particles(self, pos):
         if self.player.sprite.facing_right:
